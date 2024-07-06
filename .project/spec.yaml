@@ -1,4 +1,5 @@
 specVersion: v2
+specMinorVersion: 1
 meta:
   name: nemo-punctuation
   image: project-nemo-punctuation
@@ -44,6 +45,8 @@ environment:
         | curl -o /dev/null -s -w ''%{http_code}'' --config -) == ''200'' ]'
       stop_command: jupyter notebook stop 8888 && pkill -f jupyter -9
       user_msg: ""
+      logfile_path: ""
+      timeout_seconds: 0
       icon_url: ""
       webapp_options:
         autolaunch: true
@@ -64,7 +67,6 @@ environment:
       uid: ""
       gid: ""
       username: ""
-      is_root: null
     package_managers:
     - name: apt
       binary_path: /usr/bin/apt
@@ -96,7 +98,19 @@ environment:
       name: ""
       target: ""
 execution:
-  apps: []
+  apps:
+  - name: Visual Studio Code
+    type: vs-code
+    class: native
+    start_command: ""
+    health_check_command: '[ \$(ps aux | grep ".vscode-server" | grep -v grep | wc
+      -l ) -gt 4 ] && [ \$(ps aux | grep "/.vscode-server/bin/.*/node .* net.createConnection"
+      | grep -v grep | wc -l) -gt 0 ]'
+    stop_command: ""
+    user_msg: ""
+    logfile_path: ""
+    timeout_seconds: 0
+    icon_url: ""
   resources:
     gpu:
       requested: 1
